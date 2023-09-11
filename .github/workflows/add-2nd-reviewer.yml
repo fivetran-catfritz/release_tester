@@ -11,8 +11,8 @@ jobs:
     steps:
       - name: Check if PR needs second reviewer
         id: check_needs_second_reviewer
+        if: steps.check_approval.outputs.approved == 'true'
         run: |
-          if: steps.check_approval.outputs.approved == 'true'
           SECOND_REVIEWER="fivetran-joemarkiewicz"
           echo "second_reviewer=$SECOND_REVIEWER" >> $GITHUB_OUTPUT
           PR_NUMBER=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH")

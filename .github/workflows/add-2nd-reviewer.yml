@@ -1,17 +1,16 @@
 name: Auto-Assign Second Reviewer
-
 on:
   pull_request_review:
     types: [submitted]
 
 jobs:
   auto_assign_reviewer:
+    if: steps.check_approval.outputs.approved
     runs-on: ubuntu-latest
     
     steps:
       - name: Check if PR needs second reviewer
         id: check_needs_second_reviewer
-        if: steps.check_approval.outputs.approved
         run: |
           SECOND_REVIEWER="fivetran-joemarkiewicz"
           echo "second_reviewer=$SECOND_REVIEWER" >> $GITHUB_OUTPUT

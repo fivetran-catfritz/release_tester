@@ -5,7 +5,7 @@ on:
 
 jobs:
   auto_assign_reviewer:
-    if: steps.check_approval.outputs.approved
+    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     
     steps:

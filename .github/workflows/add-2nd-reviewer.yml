@@ -13,17 +13,18 @@ jobs:
         id: check_needs_second_reviewer
         run: |
           # Set the 2nd Reviewer
-          SECOND_REVIEWER="fivetran-joemarkiewicz"
+          SECOND_REVIEWER="${{ secrets.REVIEWER_2 }}"
           echo "second_reviewer=$SECOND_REVIEWER" >> $GITHUB_OUTPUT
 
           # Get the PR Number
           PR_NUMBER=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH")
+          echo "PR Number: $PR_NUMBER"
           echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
 
-          # Get list of current reviewers
-          CURRENT_REVIEWERS=$(curl -s -H "Authorization: ${{ secrets.GH_TOKEN }}" \
+          # Get list of current reviewers (need to update filter on line 27 to teams when switch 2nd reviewer)
+          CURRENT_REVIEWERS=$(curl -s -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
                               -H"Accept:application/vnd.github.v3+json" \
-                              "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers")
+                              "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers" | jq -r '.[].users')
           echo "$CURRENT_REVIEWERS"
           # Determine if group already assigned as reviewer
           if [[ ! "$CURRENT_REVIEWERS" =~ "$SECOND_REVIEWER" ]]; then

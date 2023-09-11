@@ -25,7 +25,7 @@ jobs:
           CURRENT_REVIEWERS=$(curl -s -H \
             -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews" | jq -r '.[].login')
+            "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews" | jq -r '.user.login')
           echo "$CURRENT_REVIEWERS"
           # Determine if group already assigned as reviewer
           if [[ ! "$CURRENT_REVIEWERS" =~ "$SECOND_REVIEWER" ]]; then
@@ -33,7 +33,7 @@ jobs:
           else
             NEEDS_SECOND_REVIEWER="false"
           fi
-          echo "Add 2nd Reviewer: $needs_second_reviewer"
+          echo "Add 2nd Reviewer: $NEEDS_SECOND_REVIEWER"
           echo "needs_second_reviewer=$NEEDS_SECOND_REVIEWER" >> $GITHUB_OUTPUT
 
       - name: Assign Second Reviewer

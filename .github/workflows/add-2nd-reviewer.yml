@@ -13,7 +13,7 @@ jobs:
         id: check_needs_second_reviewer
         run: |
           # Set the 2nd Reviewer
-          SECOND_REVIEWER="${{ secrets.REVIEWER_2 }}"
+          SECOND_REVIEWER="fivetran-joemarkiewicz"
           echo "second_reviewer=$SECOND_REVIEWER" >> $GITHUB_OUTPUT
 
           # Get the PR Number

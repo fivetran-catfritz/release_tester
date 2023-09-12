@@ -21,7 +21,8 @@ jobs:
           echo "PR Number: $PR_NUMBER"
           echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
 
-          # Get list of current reviewers (need to update filter on line 27 to teams when switch 2nd reviewer)
+          # Get list of current reviewers 
+          # (need to update filter on line 29 to teams when switch 2nd reviewer. might be teams.slugs but ??)
           CURRENT_REVIEWERS=$(curl -s -H \
             -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
@@ -39,11 +40,12 @@ jobs:
       - name: Assign Second Reviewer
         if: steps.check_needs_second_reviewer.outputs.needs_second_reviewer == 'true'
         run: |
-          PR_NUMBER=steps.check_needs_second_reviewer.outputs.pr_number
+          PR_NUMBER=${{ steps.check_needs_second_reviewer.outputs.pr_number }}
           SECOND_REVIEWER=${{ steps.check_needs_second_reviewer.outputs.second_reviewer }}
           curl -s -H \
+            -X POST \
             -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
-            -d "{\"reviewers\": [\"$SECOND_REVIEWER\"]}" \
             "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers"
-          echo"$SECOND_REVIEWER added as 2nd reviewer."
+            -d '{"reviewers":["$SECOND_REVIEWER"]}'
+          echo "$SECOND_REVIEWER added as 2nd reviewer."

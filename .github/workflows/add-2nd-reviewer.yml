@@ -32,24 +32,34 @@ jobs:
           # Determine if group already assigned as reviewer
           if [[ "$CURRENT_REVIEWERS" == *"$SECOND_REVIEWER"* ]]; then
             NEEDS_SECOND_REVIEWER="false"
+
+            RESPONSE=$(curl -L \
+            -X POST \
+            -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers \
+            -d '{"reviewers":["$SECOND_REVIEWER"]}'
+            )
+          echo "$RESPONSE"
+
           else
             NEEDS_SECOND_REVIEWER="true"
           fi
           echo "Add 2nd Reviewer: $NEEDS_SECOND_REVIEWER"
           echo "needs_second_reviewer=$NEEDS_SECOND_REVIEWER" >> $GITHUB_OUTPUT
 
-      - name: Assign Second Reviewer
-        if: steps.check_needs_second_reviewer.outputs.needs_second_reviewer == 'true'
-        run: |
-          PR_NUMBER=${{ steps.check_needs_second_reviewer.outputs.pr_number }}
-          SECOND_REVIEWER=${{ steps.check_needs_second_reviewer.outputs.second_reviewer }}
-          TOKEN=${{ secrets.GH_TOKEN2 }}
-          RESPONSE=$(curl -L \
-            -X POST \
-            -H "Authorization: token $TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers \
-            -d '{\"reviewers\":[\"$SECOND_REVIEWER\"]}'
-            )
-            # for later - ,"team_reviewers":["DBT"]
-          echo "$RESPONSE"
+      # - name: Assign Second Reviewer
+      #   if: steps.check_needs_second_reviewer.outputs.needs_second_reviewer == 'true'
+      #   run: |
+      #     PR_NUMBER=${{ steps.check_needs_second_reviewer.outputs.pr_number }}
+      #     SECOND_REVIEWER=${{ steps.check_needs_second_reviewer.outputs.second_reviewer }}
+      #     TOKEN=
+      #     RESPONSE=$(curl -L \
+      #       -X POST \
+      #       -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
+      #       -H "Accept: application/vnd.github.v3+json" \
+      #       https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers \
+      #       -d '{\"reviewers\":[\"$SECOND_REVIEWER\"]}'
+      #       )
+      #       # for later - ,"team_reviewers":["DBT"]
+      #     echo "$RESPONSE"

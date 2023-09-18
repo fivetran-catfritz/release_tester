@@ -37,7 +37,7 @@ jobs:
           else
             NEEDS_SECOND_REVIEWER="true"
 
-            RESPONSE=$(curl -s -H \
+            RESPONSE=$(curl -i -L \
               -X POST \
               -H "Authorization: Bearer ${{ secrets.GH_TOKEN3 }}" \
               -H "Accept: application/vnd.github+json" \

@@ -1,4 +1,4 @@
-# fivetran-catfritz/release_tester v0.2.0
+# release_tester v0.2.0
 ## 🚨 Breaking Changes 🚨:
 [PR #25](https://github.com/fivetran/dbt_pinterest_source/pull/25) introduces the following changes:
 - Following Pinterest Ads deprecating the v4 API on June 30, 2023 in place of v5, the Pinterest Ads Fivetran connector now leverages the Pinterest v5 API. The following fields have been deprecated/introduced:
@@ -17,7 +17,7 @@
 ## Contributors
 - [@kenzie-marsh](https://github.com/kenzie-marsh) ([Issue #100](https://github.com/fivetran/dbt_jira/issues/100))
 
-# fivetran-catfritz/release_tester v0.1.1
+# release_tester v0.1.1
 ## Features
 - Addition of the `pinterest__using_keywords` (default=`true`) variable that allows users to disable the relevant keyword reports in the downstream Pinterest models if they are not used. ([PR #23](https://github.com/fivetran/dbt_pinterest_source/pull/23))
 

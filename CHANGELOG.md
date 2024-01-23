@@ -1,6 +1,6 @@
-# fivetran-catfritz/release_tester v0.2.1
+# fivetran-catfritz/release_tester v0.2.0
 [PR #43](https://github.com/fivetran/dbt_zendesk_source/pull/43) introduces the following updates:
-Also testing out backslashes here \ wow so many backslashes \.
+
 ## Feature Updates
 - Added the `internal_user_criteria` variable, which can be used to mark internal users whose `USER.role` may have changed from `agent` to `end-user` after they left your organization. This variable accepts SQL that may reference any non-custom field in `USER`, and it will be wrapped in a `case when` statement in the `stg_zendesk__user` model.
   - Example usage:
@@ -16,25 +16,6 @@ vars:
 - Updated the way we dynamically disable sources. Previously, we used a custom `meta.is_enabled` flag, but, since we added this, dbt-core introduced a native `config.enabled` attribute.  We have opted to use the dbt-native config instead.
 - Updated the pull request [templates](/.github).
 - Included auto-releaser GitHub Actions workflow to automate future releases.
-
-# fivetran-catfritz/release_tester v0.2.0
-## 🚨 Breaking Changes 🚨:
-[PR #25](https://github.com/fivetran/dbt_pinterest_source/pull/25) introduces the following changes:
-- Following Pinterest Ads deprecating the v4 API on June 30, 2023 in place of v5, the Pinterest Ads Fivetran connector now leverages the Pinterest v5 API. The following fields have been deprecated/introduced:
-
-| **Model** | **Removed**  | **New**   |
-|---|---|---|
-|  [stg_pinterest_ads__advertiser_history](https://fivetran.github.io/dbt_pinterest_source/#!/model/model.pinterest_source.stg_pinterest_ads__advertiser_history) | `billing_profile_status`, `billing_type`, `merchant_id`, `status`  | `owner_username`, `permissions`  |
-|  [stg_pinterest_ads__campaign_history](https://fivetran.github.io/dbt_pinterest_source/#!/model/model.pinterest_source.stg_pinterest_ads__campaign_history) | | `default_ad_group_budget_in_micro_currency`, `is_automated_campaign`, `is_campaign_budget_optimization`, `is_flexible_daily_budgets`  |
-|  [stg_pinterest_ads__ad_group_history](https://fivetran.github.io/dbt_pinterest_source/#!/model/model.pinterest_source.stg_pinterest_ads__ad_group_history) |  | `pacing_delivery_type`, `placement_group`, `summary_status`, `advertiser_id` |
-|  [stg_pinterest_ads__pin_promotion_history](https://fivetran.github.io/dbt_pinterest_source/#!/model/model.pinterest_source.stg_pinterest_ads__pin_promotion_history) |  | `advertiser_id` |
-
-
-## Under the Hood:
-- Following the v5 upgrade, `ad_account_id` is a net new field within `ad_group_history` and `pin_promotion_history` source tables synced via the connector. However, to keep these fields standard across the package, we have renamed them as `advertiser_id` within the respective staging models.
-
-## Contributors
-- [@kenzie-marsh](https://github.com/kenzie-marsh) ([Issue #100](https://github.com/fivetran/dbt_jira/issues/100))
 
 # fivetran-catfritz/release_tester v0.1.1
 ## Features

@@ -5,10 +5,10 @@
 - Added the `internal_user_criteria` variable, which can be used to mark internal users whose `USER.role` may have changed from `agent` to `end-user` after they left your organization. This variable accepts SQL that may reference any non-custom field in `USER`, and it will be wrapped in a `case when` statement in the `stg_zendesk__user` model.
   - Example usage:
 ```yml
-# dbt_project.yml
+dbt_project.yml
 vars:
   zendesk_source:
-    internal_user_criteria: "lower(email) like or external_id = '12345' or name in ('Garrett', 'Alfredo')" # can reference any non-custom field in USER
+    internal_user_criteria: "lower(email) like '%@fivetran.com' or external_id = '12345' or name in ('Garrett', 'Alfredo')" # can reference any non-custom field in USER
 ```
   - Output: In `stg_zendesk__user`, users who match your criteria and have a role of `end-user` will have their role switched to `agent`. This will ensure that downstream SLA metrics are appropriately calculated.
 

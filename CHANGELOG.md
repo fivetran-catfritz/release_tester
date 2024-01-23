@@ -44,7 +44,7 @@ vars:
 - Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. ([PR #22](https://github.com/fivetran/dbt_pinterest_source/pull/22))
 - Updated the pull request [templates](/.github). ([PR #22](https://github.com/fivetran/dbt_pinterest_source/pull/22))
 
-# dbt_pinterest_source v0.7.1
+# dbt_pinterest_source v0.7.11
 ## 🔧 Fixes
 - Added `pin_promotion_id` to unique-combination-of-columns test for model `stg_pinterest_ads` to remedy test failures. ([#21](https://github.com/fivetran/dbt_pinterest_source/pull/21))
 # dbt_pinterest_source v0.7.0

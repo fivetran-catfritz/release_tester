@@ -1,6 +1,6 @@
 # fivetran-catfritz/release_tester v0.2.1
 [PR #43](https://github.com/fivetran/dbt_zendesk_source/pull/43) introduces the following updates:
-Also testing out backslashes here \\ wow so many backslashes \.
+Also testing out backslashes here \ wow so many backslashes \.
 ## Feature Updates
 - Added the `internal_user_criteria` variable, which can be used to mark internal users whose `USER.role` may have changed from `agent` to `end-user` after they left your organization. This variable accepts SQL that may reference any non-custom field in `USER`, and it will be wrapped in a `case when` statement in the `stg_zendesk__user` model.
   - Example usage:

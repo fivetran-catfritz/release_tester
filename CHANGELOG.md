@@ -1,4 +1,4 @@
-# release_tester v0.2.0
+# release_tester v0.2.1-a1
 ## 🚨 Breaking Changes 🚨:
 [PR #25](https://github.com/fivetran/dbt_pinterest_source/pull/25) introduces the following changes:
 - Following Pinterest Ads deprecating the v4 API on June 30, 2023 in place of v5, the Pinterest Ads Fivetran connector now leverages the Pinterest v5 API. The following fields have been deprecated/introduced:
@@ -10,12 +10,25 @@
 |  [stg_pinterest_ads__ad_group_history](https://fivetran.github.io/dbt_pinterest_source/#!/model/model.pinterest_source.stg_pinterest_ads__ad_group_history) |  | `pacing_delivery_type`, `placement_group`, `summary_status`, `advertiser_id` |
 |  [stg_pinterest_ads__pin_promotion_history](https://fivetran.github.io/dbt_pinterest_source/#!/model/model.pinterest_source.stg_pinterest_ads__pin_promotion_history) |  | `advertiser_id` |
 
+# fivetran-catfritz/release_tester v0.2.0
+[PR #43](https://github.com/fivetran/dbt_zendesk_source/pull/43) introduces the following updates:
 
-## Under the Hood:
-- Following the v5 upgrade, `ad_account_id` is a net new field within `ad_group_history` and `pin_promotion_history` source tables synced via the connector. However, to keep these fields standard across the package, we have renamed them as `advertiser_id` within the respective staging models.
 
-## Contributors
-- [@kenzie-marsh](https://github.com/kenzie-marsh) ([Issue #100](https://github.com/fivetran/dbt_jira/issues/100))
+## Feature Updates
+- Added the `internal_user_criteria` variable, which can be used to mark internal users whose `USER.role` may have changed from `agent` to `end-user` after they left your organization. This variable accepts SQL that may reference any non-custom field in `USER`, and it will be wrapped in a `case when` statement in the `stg_zendesk__user` model.
+  - Example usage:
+```yml
+# dbt_project.yml
+vars:
+  zendesk_source:
+    internal_user_criteria: "lower(email) like '%@fivetran.com' or external_id = '12345' or name in ('Garrett', 'Alfredo')" # can reference any non-custom field in USER
+```
+  - Output: In `stg_zendesk__user`, users who match your criteria and have a role of `end-user` will have their role switched to `agent`. This will ensure that downstream SLA metrics are appropriately calculated.
+
+## Under the Hood
+- Updated the way we dynamically disable sources. Previously, we used a custom `meta.is_enabled` flag, but, since we added this, dbt-core introduced a native `config.enabled` attribute.  We have opted to use the dbt-native config instead.
+- Updated the pull request [templates](/.github).
+- Included auto-releaser GitHub Actions workflow to automate future releases.
 
 # release_tester v0.1.1
 ## Features
@@ -25,7 +38,7 @@
 - Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. ([PR #22](https://github.com/fivetran/dbt_pinterest_source/pull/22))
 - Updated the pull request [templates](/.github). ([PR #22](https://github.com/fivetran/dbt_pinterest_source/pull/22))
 
-# dbt_pinterest_source v0.7.1
+# dbt_pinterest_source v0.7.11
 ## 🔧 Fixes
 - Added `pin_promotion_id` to unique-combination-of-columns test for model `stg_pinterest_ads` to remedy test failures. ([#21](https://github.com/fivetran/dbt_pinterest_source/pull/21))
 # dbt_pinterest_source v0.7.0

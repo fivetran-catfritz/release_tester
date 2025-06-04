@@ -1,13 +1,16 @@
-name: 'auto release'
+# .github/workflows/trigger_release.yml
+name: Trigger Release
+
 on:
   pull_request:
     types:
-      - closed
-    # branches:
-    #   - main
+      - closed      # Merged to main
+      - labeled     # Pre-release tag added
 
 jobs:
-  call-workflow-passing-data:
-    # if: github.event.pull_request.merged
-    uses: fivetran-catfritz/auto-releaser/.github/workflows/auto-release.yml@main
-    # secrets: inherit
+  release:
+    if: |
+      github.event.pull_request.merged == true ||
+      github.event.label.name == 'pre-release'
+    uses: fivetran/dbt_package_automations/.github/workflows/auto-release.yml@feature/pre-release-support
+    secrets: inherit

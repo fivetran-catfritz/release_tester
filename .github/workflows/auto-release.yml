@@ -12,6 +12,6 @@ jobs:
     if: |
       github.event.pull_request.merged == true ||
       github.event.label.name == 'pre-release'
-    uses: fivetran/dbt_package_automations/.github/workflows/auto-release.yml@feature/pre-release-support
+    uses: fivetran-catfritz/release_tester/.github/workflows/update-test.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}

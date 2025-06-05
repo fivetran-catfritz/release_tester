@@ -12,5 +12,4 @@ jobs:
       github.event.pull_request.merged == true ||
       github.event.label.name == 'pre-release'
     uses: fivetran/dbt_package_automations/.github/workflows/auto-release.yml@main
-    secrets:
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    secrets: inherit

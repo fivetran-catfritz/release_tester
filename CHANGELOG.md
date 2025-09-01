@@ -1,5 +1,18 @@
+# release_tester v0.2.1-a1
+## 🚨 Breaking Changes 🚨:
+[PR #25](https://github.com/fivetran/dbt_pinterest_source/pull/25) introduces the following changes:
+- Following Pinterest Ads deprecating the v4 API on June 30, 2023 in place of v5, the Pinterest Ads Fivetran connector now leverages the Pinterest v5 API. The following fields have been deprecated/introduced:
+
+| **Model** | **Removed**  | **New**   |
+|---|---|---|
+|  [stg_pinterest_ads__advertiser_history](https://fivetran.github.io/dbt_pinterest_source/#!/model/model.pinterest_source.stg_pinterest_ads__advertiser_history) | `billing_profile_status`, `billing_type`, `merchant_id`, `status`  | `owner_username`, `permissions`  |
+|  [stg_pinterest_ads__campaign_history](https://fivetran.github.io/dbt_pinterest_source/#!/model/model.pinterest_source.stg_pinterest_ads__campaign_history) | | `default_ad_group_budget_in_micro_currency`, `is_automated_campaign`, `is_campaign_budget_optimization`, `is_flexible_daily_budgets`  |
+|  [stg_pinterest_ads__ad_group_history](https://fivetran.github.io/dbt_pinterest_source/#!/model/model.pinterest_source.stg_pinterest_ads__ad_group_history) |  | `pacing_delivery_type`, `placement_group`, `summary_status`, `advertiser_id` |
+|  [stg_pinterest_ads__pin_promotion_history](https://fivetran.github.io/dbt_pinterest_source/#!/model/model.pinterest_source.stg_pinterest_ads__pin_promotion_history) |  | `advertiser_id` |
+
 # fivetran-catfritz/release_tester v0.2.0
 [PR #43](https://github.com/fivetran/dbt_zendesk_source/pull/43) introduces the following updates:
+
 
 ## Feature Updates
 - Added the `internal_user_criteria` variable, which can be used to mark internal users whose `USER.role` may have changed from `agent` to `end-user` after they left your organization. This variable accepts SQL that may reference any non-custom field in `USER`, and it will be wrapped in a `case when` statement in the `stg_zendesk__user` model.
@@ -17,7 +30,7 @@ vars:
 - Updated the pull request [templates](/.github).
 - Included auto-releaser GitHub Actions workflow to automate future releases.
 
-# fivetran-catfritz/release_tester v0.1.1
+# release_tester v0.1.1
 ## Features
 - Addition of the `pinterest__using_keywords` (default=`true`) variable that allows users to disable the relevant keyword reports in the downstream Pinterest models if they are not used. ([PR #23](https://github.com/fivetran/dbt_pinterest_source/pull/23))
 

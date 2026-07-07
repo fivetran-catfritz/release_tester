@@ -1,10 +1,9 @@
-name: Trigger Release
-
+name: 'auto release'
 on:
   pull_request:
     types:
-      - closed      # Merged to main
-      - labeled     # Pre-release tag added
+      - closed
+      - labeled
 
 jobs:
   release:

@@ -1,5 +1,5 @@
-# fivetran-catfritz/release_tester v0.2.1
-[PR #43](https://github.com/fivetran/dbt_zendesk_source/pull/43) introduces the following updates:
+# fivetran-catfritz/release_tester v0.2.2
+- Testing the auto-releaser updates.
 
 # fivetran-catfritz/release_tester v0.2.0
 [PR #43](https://github.com/fivetran/dbt_zendesk_source/pull/43) introduces the following updates:
